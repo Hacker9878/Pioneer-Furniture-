@@ -1,0 +1,125 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Work Events</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .event {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px;
+            cursor: pointer;
+        }
+        .completed {
+            background-color: #d4edda; /* Light green for completed */
+            color: #155724; /* Dark green for text */
+        }
+        .pending {
+            background-color: #f8d7da; /* Light red for pending */
+            color: #721c24; /* Dark red for text */
+        }
+        #adminSection {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="date"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: calc(100% - 22px);
+            margin: 5px 0;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Staff Work Events</h1>
+
+    <!-- Admin Section to Add Events -->
+    <div id="adminSection">
+        <h2>Add Event</h2>
+        <label for="eventName">Event:</label>
+        <input type="text" id="eventName" placeholder="Enter Event"><br>
+
+        <label for="eventStatus">Status:</label>
+        <select id="eventStatus">
+            <option value="completed">Completed</option>
+            <option value="pending">Pending</option>
+        </select><br>
+
+        <button onclick="addEvent()">Add Event</button>
+    </div>
+
+    <h2>Staff Event List</h2>
+    <div id="eventList"></div>
+
+    <script>
+        const events = [];
+
+        // Function to display events
+        function displayEvents() {
+            const eventList = document.getElementById('eventList');
+            eventList.innerHTML = '';
+
+            events.forEach(event => {
+                const eventDiv = document.createElement('div');
+                eventDiv.className = 'event ' + (event.status === 'completed' ? 'completed' : 'pending');
+                eventDiv.innerText = event.name;
+                eventDiv.onclick = () => showDetails(event);
+                eventList.appendChild(eventDiv);
+            });
+        }
+
+        // Function to add an event (only accessible by you)
+        function addEvent() {
+            const eventName = document.getElementById('eventName').value;
+            const eventStatus = document.getElementById('eventStatus').value;
+
+            if (eventName) {
+                events.push({ name: eventName, status: eventStatus, details: `Details about ${eventName}.` });
+                displayEvents();
+                document.getElementById('eventName').value = ''; // Clear input
+            } else {
+                alert("Please fill out the event name.");
+            }
+        }
+
+        // Function to show event details
+        function showDetails(event) {
+            localStorage.setItem('selectedEvent', JSON.stringify(event));
+            window.location.href = 'details.html'; // Redirect to details page
+        }
+
+        displayEvents();
+    </script>
+
+</body>
+</html>
