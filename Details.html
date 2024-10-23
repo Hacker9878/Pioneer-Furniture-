@@ -1,0 +1,47 @@
+<!-- details.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        .event-details {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 300px;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Event Details</h1>
+    <div class="event-details" id="eventDetails"></div>
+
+    <script>
+        const eventDetails = JSON.parse(localStorage.getItem('selectedEvent'));
+
+        if (eventDetails) {
+            const eventDiv = document.getElementById('eventDetails');
+            eventDiv.innerHTML = `
+                <h2>${eventDetails.name}</h2>
+                <p><strong>Status:</strong> ${eventDetails.status}</p>
+                <p><strong>Details:</strong> ${eventDetails.details}</p>
+            `;
+        } else {
+            document.getElementById('eventDetails').innerText = 'No event selected.';
+        }
+    </script>
+
+</body>
+</html>
